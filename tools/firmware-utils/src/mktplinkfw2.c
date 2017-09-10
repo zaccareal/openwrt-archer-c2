@@ -179,6 +179,13 @@ static struct board_info boards[] = {
 		.hdr_ver	= 3,
 		.endian_swap	= true,
 	}, {
+		.id		= "ArcherC2",
+		.hw_id		= 0xc7500001,
+		.hw_rev		= 50,
+		.layout_id	= "8Mmtk",
+		.hdr_ver	= 3,
+		.endian_swap	= true,
+	}, {
 		.id		= "ArcherVR200V",
 		.hw_id		= 0x73b70801,
 		.hw_rev		= 0x2f,

@@ -1388,9 +1388,18 @@ static int rtl8367b_switch_init(struct rtl8366_smi *smi)
 {
 	struct switch_dev *dev = &smi->sw_dev;
 	int err;
+	const __be32 *prop;
+	int size;
 
 	dev->name = "RTL8367B";
 	dev->cpu_port = RTL8367B_CPU_PORT_NUM;
+
+	#ifdef CONFIG_OF
+	prop = of_get_property(smi->parent->of_node, "realtek,cpu-port", &size);
+	if (prop && size == sizeof(*prop))
+		dev->cpu_port = be32_to_cpup(prop++);
+	#endif
+
 	dev->ports = RTL8367B_NUM_PORTS;
 	dev->vlans = RTL8367B_NUM_VIDS;
 	dev->ops = &rtl8367b_sw_ops;

@@ -1,0 +1,35 @@
+--- a/drivers/net/wireless/ralink/rt2x00/rt2800lib.c
++++ b/drivers/net/wireless/ralink/rt2x00/rt2800lib.c
+@@ -38,6 +38,7 @@
+ #include <linux/slab.h>
+ #include <linux/clk.h>
+ #include <linux/of.h>
++#include <linux/of_net.h>
+ 
+ #include "rt2x00.h"
+ #include "rt2800lib.h"
+@@ -8346,6 +8347,7 @@ static int rt2800_probe_hw_mode(struct r
+ 	char *default_power3;
+ 	unsigned int i;
+ 	u32 reg;
++	const void *perm_mac;
+ 
+ 	/*
+ 	 * Disable powersaving as default.
+@@ -8377,9 +8379,13 @@ static int rt2800_probe_hw_mode(struct r
+ 		ieee80211_hw_set(rt2x00dev->hw, MFP_CAPABLE);
+ 
+ 	SET_IEEE80211_DEV(rt2x00dev->hw, rt2x00dev->dev);
+-	SET_IEEE80211_PERM_ADDR(rt2x00dev->hw,
+-				rt2800_eeprom_addr(rt2x00dev,
+-						   EEPROM_MAC_ADDR_0));
++
++	/* Set permanent MAC from EE, but check OF override first */
++	perm_mac = of_get_mac_address(rt2x00dev->dev->of_node);
++	if(!perm_mac)
++		perm_mac = (const void *)rt2800_eeprom_addr(rt2x00dev, EEPROM_MAC_ADDR_0);
++
++	SET_IEEE80211_PERM_ADDR(rt2x00dev->hw, perm_mac);
+ 
+ 	/*
+ 	 * As rt2800 has a global fallback table we cannot specify

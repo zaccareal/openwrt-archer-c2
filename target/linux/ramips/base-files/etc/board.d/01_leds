@@ -78,6 +78,13 @@ broadway)
 	set_usb_led "$board:red:diskmounted"
 	set_wifi_led "$board:red:wps_active"
 	;;
+c2)
+	ucidef_set_led_switch "lan" "lan" "$board:green:lan" "switch0" "0x1e"
+	ucidef_set_led_switch "wan" "wan" "$board:green:wan" "switch0" "0x01"
+	set_usb_led "$board:green:usb" "2-1"
+	ucidef_set_led_wlan "wlan" "wlan" "$board:green:wlan" "phy0radio"
+	ucidef_set_led_default "wps" "wps" "$board:green:wps" "0"
+	;;
 c50)
 	ucidef_set_led_default "power" "power" "tp-link:blue:power" "0"
 	ucidef_set_led_netdev "lan" "lan" "tp-link:blue:lan" "eth0.2"

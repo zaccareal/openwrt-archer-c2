@@ -1,0 +1,155 @@
+/dts-v1/;
+
+/include/ "mt7620a.dtsi"
+
+/ {
+	compatible = "ralink,mt7620a-soc";
+	model = "TP-Link Archer C2";
+
+	chosen {
+		bootargs = "console=ttyS0,115200";
+	};
+
+	palmbus@10000000 {
+
+		spi@b00 {
+			status = "okay";
+
+			m25p80@0 {
+				#address-cells = <1>;
+				#size-cells = <1>;
+				compatible = "mx25l6405d";
+				reg = <0 0>;
+				linux,modalias = "m25p80", "mx25l6405d";
+				spi-max-frequency = <10000000>;
+
+				partition@0 {
+					label = "u-boot";
+					reg = <0x0 0x20000>;
+					read-only;
+				};
+
+				partition@20000 {
+					label = "firmware";
+					reg = <0x20000 0x7a0000>;
+				};
+
+				partition@7c0000 {
+					label = "config";
+					reg = <0x7c0000 0x10000>;
+				};
+
+				rom: partition@7d0000 {
+					label = "rom";
+					reg = <0x7d0000 0x10000>;
+				};
+
+				partition@7e0000 {
+					label = "romfile";
+					reg = <0x7e0000 0x10000>;
+				};
+
+				radio: partition@7f0000 {
+					label = "radio";
+					reg = <0x7f0000 0x10000>;
+				};
+			};
+		};
+	};
+
+	pinctrl {
+		state_default: pinctrl0 {
+			gpio {
+				ralink,group = "i2c", "uartf", "wled", "nd_sd", "ephy", "spi refclk";
+				ralink,function = "gpio";
+			};
+		};
+	};
+
+	ethernet@10100000 {
+		status = "okay";
+		mtd-mac-address = <&rom 0xf100>;
+
+		port@5 {
+			status = "okay";
+			mediatek,fixed-link = <1000 1 1 1>;
+			phy-mode = "rgmii";
+		};
+	};
+
+	rtl8367b {
+		compatible = "rtl8367b";
+		realtek,extif1 = <1 0 1 1 1 1 1 1 2>;
+		realtek,cpu-port = <6>;
+	};
+
+	ehci@101c0000 {
+		status = "okay";
+	};
+
+	ohci@101c1000 {
+		status = "okay";
+	};
+
+	wmac@10180000 {
+		ralink,mtd-eeprom = <&radio 0>;
+		mtd-mac-address = <&rom 0xf100>;
+	};
+
+	pcie@10140000 {
+		status = "okay";
+	};
+
+	gpio-leds { 
+		compatible = "gpio-leds";
+
+		lan {
+			label = "c2:green:lan";
+			gpios = <&gpio0 1 1>;
+		};
+		usb {
+			label = "c2:green:usb";
+			gpios = <&gpio0 11 1>;
+		};
+		wps {
+			label = "c2:green:wps";
+			gpios = <&gpio1 15 1>;
+		};
+		wan {
+			label = "c2:green:wan";
+			gpios = <&gpio2 0 1>;
+		};
+		wlan {
+			label = "c2:green:wlan";
+			gpios = <&gpio3 0 1>;
+		};
+	};
+
+	gpio-keys {
+		compatible = "gpio-keys";
+
+		reset_wps { 
+			label = "reset_wps"; 
+			gpios = <&gpio0 13 1>; 
+			linux,code = <0x198>; 
+		}; 
+
+		rfkill { 
+			label = "rfkill"; 
+			gpios = <&gpio0 2 1>; 
+			linux,code = <0xf7>; 
+		}; 
+	};
+};
+
+&gpio1 {
+	status = "okay";
+};
+
+&gpio2 {
+	status = "okay";
+};
+
+&gpio3 {
+	status = "okay";
+};

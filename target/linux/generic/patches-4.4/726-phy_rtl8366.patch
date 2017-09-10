@@ -1,6 +1,6 @@
 --- a/drivers/net/phy/Kconfig
 +++ b/drivers/net/phy/Kconfig
-@@ -294,6 +294,30 @@ config MDIO_BCM_IPROC
+@@ -294,6 +294,26 @@ config MDIO_BCM_IPROC
  	  This module provides a driver for the MDIO busses found in the
  	  Broadcom iProc SoC's.
  
@@ -10,8 +10,6 @@
 +	---help---
 +	  This module implements the SMI interface protocol which is used
 +	  by some RTL8366 ethernet switch devices via the generic GPIO API.
-+
-+if RTL8366_SMI
 +
 +config RTL8366_SMI_DEBUG_FS
 +	bool "RTL8366 SMI interface debugfs support"
@@ -25,8 +23,6 @@
 +config RTL8366RB_PHY
 +	tristate "Driver for the Realtek RTL8366RB switch"
 +	select SWCONFIG
-+
-+endif # RTL8366_SMI
 +
  endif # PHYLIB
  
