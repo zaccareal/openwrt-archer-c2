@@ -1,0 +1,168 @@
+config MT7610_AP
+	bool "MediaTek MT7610E 802.11 AP driver"	
+	default y
+	#select WIRELESS_EXT
+	#select WEXT_SPY
+	#select WEXT_PRIV
+
+config MT7610_AP_LED
+	bool "LED support"
+	depends on MT7610_AP
+	default n
+
+config MT7610_AP_LED_SOFT
+	bool "Soft LED support"
+	depends on MT7610_AP && !MT7610_AP_LED && RALINK_GPIO_LED
+	default n
+
+config MT7610_AP_LED_SOFT_GPIO
+	int "Soft LED GPIO pin"
+	depends on MT7610_AP && MT7610_AP_LED_SOFT
+	default -1
+
+config MT7610_AP_LLTD
+	bool "LLTD (Link Layer Topology Discovery Protocol)"
+	depends on MT7610_AP
+	default n
+
+config MT7610_AP_WDS
+	bool "WDS"
+	depends on MT7610_AP
+	default n
+
+config MT7610_AP_MBSS
+	bool "MBSSID"
+	depends on MT7610_AP
+	default y
+
+config MT7610_AP_MBSS_NEW_MBSSID_MODE
+	bool "New MBSSID mode support"
+	depends on MT7610_AP
+	depends on MT7610_AP_MBSS
+	default n
+
+config MT7610_AP_APCLI
+	bool "AP-Client support"
+	depends on MT7610_AP
+	default n
+
+config MT7610_AP_MAC_REPEATER
+	bool "MAC Repeater Mode support"
+	depends on MT7610_AP
+	depends on MT7610_AP_APCLI
+	default n
+
+config MT7610_AP_CON_WPS
+	bool "Concurrent WPS support"
+	depends on MT7610_AP
+	depends on MT7610_AP_APCLI
+	depends on RT_WSC_V2
+	default n
+
+config MT7610_AP_DFS
+	bool "DFS support"
+	depends on MT7610_AP
+	default n
+
+config MT7610_AP_CARRIER
+	bool "Carrier Detection support"
+	depends on MT7610_AP
+	default n
+
+config MT7610_AP_DLS
+	bool "802.11e DLS (Direct-Link Setup) support"
+	depends on MT7610_AP
+	default n
+
+config MT7610_AP_IDS
+	bool "IDS (Intrusion Detection System) support"
+	depends on MT7610_AP
+	default n
+
+config MT7610_AP_TEMPERATURE_COMPENSATION
+	bool "Tx Power Temperature Compensation"
+	depends on MT7610_AP
+	default y
+
+config MT7610_AP_TSSI_COMPENSATION
+	bool "TSSI DC Calibration & TSSI compensation"
+	depends on MT7610_AP
+	default y
+
+config RT_SINGLE_SKU
+	bool "Single SKU regspec"
+	default y
+
+config RT_MAX_CLIENTS
+	int "Maximum Wireless clients (16/32/48/64/128). More clients - more MEM and CPU usage"
+	default 32
+
+config RT_DOT11R_FT
+	bool "802.11r Fast BSS Transition support"
+	default n
+
+config RT_DOT11K_RRM
+	bool "802.11k Radio Resource Management support"
+	default n
+
+config RT_80211N_DRAFT3
+	bool "802.11n Draft3 (BSS Coexistence)"
+	default n
+
+config RT_80211W_PMF
+	bool "802.11w Protected Management Frames (PMF) support"
+	default n
+
+config RT_WSC
+	bool "WSC (WiFi Simple Config)"
+	default n
+
+config RT_WSC_V2
+	bool "WSC V2 (WiFi Simple Config Version 2)"
+	depends on RT_WSC
+	default n
+
+config RT_WSC_NFC
+	bool "WSC out-of-band (NFC)"
+	depends on RT_WSC
+	default n
+
+config RT_ED_MONITOR
+	bool "ED CCA Monitor support"
+	default n
+
+config RT_IGMP_SNOOP
+	bool "IGMP snooping (M2U in wireless driver)"
+	default n
+
+config RT_MCAST_RATE_SPECIFIC
+	bool "User specific TX rate of mcast packets"
+	default n
+
+config RT_DELAYED_TCP_ACK
+	bool "Delayed TCP ACK support"
+	default n
+
+config RT_NETIF_BLOCK
+	bool "Support Net interface block while Tx-Sw queue full"
+	default n
+
+config RT_SNMP
+	bool "Support SNMPD counters"
+	default n
+
+config RT_CFG80211
+	bool "CFG80211 support (Linux wireless configuration API)"
+	default n
+
+config RT_READ_MAC_FROM_MTD
+	bool "Read and set MAC address from MTD/EEPROM"
+	default y
+
+config RT_MEMORY_OPTIMIZATION
+	bool "Memory optimization (shrink ring size). Need for < 32Mb RAM devices"
+	default n
+
+config RT_DEBUG
+	bool "Include Debug messages"
+	default y
