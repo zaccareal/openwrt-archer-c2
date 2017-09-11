@@ -353,7 +353,7 @@ local function wifi_reconnect_shutdown(shutdown, wnet)
 		netmd:commit("wireless")
 
 		if vendor == "ralink" then
-                        luci.sys.call("(env -i /sbin/wifi down; env -i /sbin/wifi up) >/dev/null 2>/dev/null")
+                        luci.sys.call("(env -i /sbin/wifi reload) >/dev/null 2>/dev/null")
                 else
 			luci.sys.call("env -i /bin/ubus call network reload >/dev/null 2>/dev/null")
 		end
