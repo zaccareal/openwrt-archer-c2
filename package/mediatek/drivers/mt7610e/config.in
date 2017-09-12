@@ -79,15 +79,17 @@ config MT7610_AP_IDS
 	depends on MT7610_AP
 	default n
 
-config MT7610_AP_TEMPERATURE_COMPENSATION
-	bool "Tx Power Temperature Compensation"
+choice
+	prompt "Tx Power Compensation"
 	depends on MT7610_AP
-	default y
+	default MT7610_AP_TSSI_COMPENSATION
 
-config MT7610_AP_TSSI_COMPENSATION
+	config MT7610_AP_TSSI_COMPENSATION
 	bool "TSSI DC Calibration & TSSI compensation"
-	depends on MT7610_AP
-	default y
+
+	config MT7610_AP_TEMPERATURE_COMPENSATION
+	bool "Tx Power Temperature Compensation"
+endchoice
 
 config RT_SINGLE_SKU
 	bool "Single SKU regspec"
